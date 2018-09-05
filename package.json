@@ -1,11 +1,13 @@
 {
-  "name": "simple-slider",
+  "name": "simple-slider-ts",
   "version": "1.0.0",
-  "description": "The 1kb JavaScript Carousel",
-  "homepage": "https://ruyadorno.github.io/simple-slider/",
+  "description": "A Tiny Typed JavaScript Carousel",
+  "homepage": "https://jacobroufa.github.io/simple-slider/",
   "main": "dist/simpleslider.js",
   "files": [
-    "src/simpleslider.js",
+    "src/index.ts",
+    "src/interfaces.ts",
+    "src/simpleslider.ts",
     "dist/simpleslider.js",
     "dist/simpleslider.min.js"
   ],
@@ -16,11 +18,7 @@
     "test:lint": "eslint src/ test/",
     "test:build": "webpack",
     "test:unit": "jest",
-    "test": "run-s test:lint test:build test:unit",
-    "functional": "zuul -- test/functional-tests.js",
-    "functional:local": "zuul --local 8080 -- test/functional-tests.js",
-    "ci": "run-s test build functional",
-    "ci:pr": "run-s test build"
+    "test": "run-s test:lint test:build test:unit"
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
@@ -37,12 +35,11 @@
     "npm-run-all": "^4.0.2",
     "raf": "^3.3.0",
     "uglify-js": "^2.8.10",
-    "webpack": "^2.2.1",
-    "zuul": "^3.11.1"
+    "webpack": "^2.2.1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ruyadorno/simple-slider.git"
+    "url": "https://github.com/jacobroufa/simple-slider.git"
   },
   "keywords": [
     "simple",
@@ -66,14 +63,16 @@
     "glidejs",
     "javascript-carousel",
     "DOM",
-    "browser"
+    "browser",
+    "typescript",
+    "typescript-carousel"
   ],
   "jest": {
     "verbose": true
   },
   "author": {
-    "name": "Ruy Adorno",
-    "url": "ruyadorno.com"
+    "name": "Jacob Roufa",
+    "url": "jacobroufa.com"
   },
   "license": "MIT"
 }
