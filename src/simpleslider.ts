@@ -1,254 +1,256 @@
-import { SliderClass, SliderOpts } from 'interfaces';
+import { SliderClass, SliderOpts } from "./interfaces";
 
-export default class SimpleSlider<SliderOpts> implements SliderClass {
-  constructor(options: SliderOpts) {
-    this.interval = null;
-    this.intervalStartTime = null;
+export default class SimpleSlider extends SliderClass {
+	constructor(options: SliderOpts) {
+		super();
 
-    this.updateConfig(options);
+		this.interval = null;
+		this.intervalStartTime = null;
 
-    // configures visibility api handler https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
-    document.addEventListener('visibilitychange', this.visibilityChange);
+		this.updateConfig(options);
 
-    if (this.imgs && this.imgs.length > 1) {
-      this.resume();
-    }
-  }
+		// configures visibility api handler https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
+		document.addEventListener("visibilitychange", this.visibilityChange);
 
-  public change(newIndex: number) {
-    const { actualIndex, imgs, onChange, prevIndex } = this;
-    const count = imgs.length;
+		if (this.imgs && this.imgs.length > 1) {
+			this.resume();
+		}
+	}
 
-    while (--count >= 0) {
-      imgs[count].style.zIndex = 1;
-    }
+	public change(newIndex: number) {
+		const { actualIndex, imgs, onChange, prevIndex } = this;
+		let count = imgs.length;
 
-    imgs[newIndex].style.zIndex = 3;
-    imgs[actualIndex].style.zIndex = 2;
+		while (--count >= 0) {
+			imgs[count].style.zIndex = "1";
+		}
 
-    this.animate(imgs[actualIndex].style, imgs[newIndex].style, 0, 0);
+		imgs[newIndex].style.zIndex = "3";
+		imgs[actualIndex].style.zIndex = "2";
 
-    this.actualIndex = newIndex;
+		this.animate(imgs[actualIndex].style, imgs[newIndex].style, 0, 0);
 
-    if (onChange) {
-      onChange(prevIndex(), actualIndex);
-    }
-  }
+		this.actualIndex = newIndex;
 
-  public dispose() {
-    const { interval, visibilityChange } = this;
+		if (onChange) {
+			onChange(prevIndex(), actualIndex);
+		}
+	}
 
-    clearTimeout(interval);
+	public dispose() {
+		const { interval, visibilityChange } = this;
 
-    document.removeEventListener('visibilitychange', visibilityChange);
+		clearTimeout(interval);
 
-    this.actualIndex = null;
-    this.children = null;
-    this.containerElem = null;
-    this.delay = null;
-    this.endVal = null;
-    this.imgs = null;
-    this.interval = null;
-    this.intervalStartTime = null;
-    this.onChange = null;
-    this.onChangeEnd = null;
-    this.paused = null;
-    this.remainingTime = null;
-    this.startVal = null;
-    this.trProp = null;
-    this.trTime = null;
-    this.unit = null;
-    this.visVal = null;
-  }
+		document.removeEventListener("visibilitychange", visibilityChange);
 
-  public getCurrentIndex() {
-    return this.actualIndex;
-  }
+		this.actualIndex = null;
+		this.children = null;
+		this.containerElem = null;
+		this.delay = null;
+		this.endVal = null;
+		this.imgs = null;
+		this.interval = null;
+		this.intervalStartTime = null;
+		this.onChange = null;
+		this.onChangeEnd = null;
+		this.paused = null;
+		this.remainingTime = null;
+		this.startVal = null;
+		this.trProp = null;
+		this.trTime = null;
+		this.unit = null;
+		this.visVal = null;
+	}
 
-  public next() {
-    const { change, nextIndex, resume } = this;
+	public getCurrentIndex() {
+		return this.actualIndex;
+	}
 
-    change(nextIndex());
-    resume();
-  }
+	public next() {
+		const { change, nextIndex, resume } = this;
 
-  public nextIndex(): number {
-    const { actualIndex, imgs } = this;
-    const newIndex = actualIndex + 1;
+		change(nextIndex());
+		resume();
+	}
 
-    return newIndex >= imgs.length
-      ? 0
-      : newIndex;
-  }
+	public nextIndex(): number {
+		const { actualIndex, imgs } = this;
+		const newIndex = actualIndex + 1;
 
-  public pause() {
-    const { delay, intervalStartTime, interval, isAutoPlay } = this;
+		return newIndex >= imgs.length
+			? 0
+			: newIndex;
+	}
 
-    if (isAutoPlay()) {
-      this.remainingTime = delay - (Date.now() - intervalStartTime);
+	public pause() {
+		const { delay, intervalStartTime, interval, isAutoPlay } = this;
 
-      clearTimeout(interval);
+		if (isAutoPlay()) {
+			this.remainingTime = delay - (Date.now() - intervalStartTime);
 
-      this.interval = 0;
-    }
-  }
+			clearTimeout(interval);
 
-  public prev() {
-    const { change, prevIndex, resume } = this;
+			this.interval = 0;
+		}
+	}
 
-    change(prevIndex());
-    resume();
-  }
+	public prev() {
+		const { change, prevIndex, resume } = this;
 
-  public prevIndex(): number {
-    const { actualIndex, imgs } = this;
-    const newIndex = actualIndex - 1;
+		change(prevIndex());
+		resume();
+	}
 
-    return newIndex < 0
-      ? imgs.length - 1
-      : newIndex;
-  }
+	public prevIndex(): number {
+		const { actualIndex, imgs } = this;
+		const newIndex = actualIndex - 1;
 
-  public reset() {
-    const { children, containerElem, delay, startVal, trProp, unit, visVal } = this;
+		return newIndex < 0
+			? imgs.length - 1
+			: newIndex;
+	}
 
-    if (children.length > 0) {
-      let style = containerElem.style;
+	public reset() {
+		const { children, containerElem, delay, startVal, trProp, unit, visVal } = this;
 
-      style.position = 'relative';
-      style.overflow = 'hidden';
-      style.display = 'block';
+		if (children.length > 0) {
+			let style = containerElem.style;
 
-      this.actualIndex = 0;
-      this.imgs = setupSlides(containerElem, children, unit, startVal, visVal, trProp);
-      this.remainingTime = delay;
-    }
-  }
+			style.position = "relative";
+			style.overflow = "hidden";
+			style.display = "block";
 
-  public resume() {
-    const { interval, isAutoPlay, setAutoPlayLoop } = this;
+			this.actualIndex = 0;
+			this.imgs = this.setupSlides(containerElem, children, unit, startVal, visVal, trProp);
+			this.remainingTime = delay;
+		}
+	}
 
-    if (isAutoPlay()) {
-      if (interval) {
-        clearTimeout(interval);
-      }
+	public resume() {
+		const { interval, isAutoPlay, setAutoPlayLoop } = this;
 
-      setAutoPlayLoop();
-    }
-  }
+		if (isAutoPlay()) {
+			if (interval) {
+				clearTimeout(interval);
+			}
 
-  public reverse() {
-    const { actualIndex, endVal, imgs, startVal } = this;
-    const newEndVal = startVal;
+			setAutoPlayLoop();
+		}
+	}
 
-    this.startVal = endVal;
-    this.endVal = newEndVal;
-    this.actualIndex = Math.abs(actualIndex - (imgs.length - 1));
-    this.imgs = imgs.reverse(); }
+	public reverse() {
+		const { actualIndex, endVal, imgs, startVal } = this;
+		const newEndVal = startVal;
 
-  public updateConfig(options: SliderOpts) {
-    const defaultEase = (time, begin, change, duration) => ((time = time / (duration / 2)) < 1)
-        ? change / 2 * time * time * time + begin
-        : change / 2 * ((time -= 2) * time * time + 2) + begin;
+		this.startVal = endVal;
+		this.endVal = newEndVal;
+		this.actualIndex = Math.abs(actualIndex - (imgs.length - 1));
+		this.imgs = imgs.reverse(); }
 
-    this.containerElem = options.container || document.querySelector('*[data-simple-slider]');
+	public updateConfig(options: SliderOpts) {
+		const defaultEase = (time, begin, change, duration) => ((time = time / (duration / 2)) < 1)
+				? change / 2 * time * time * time + begin
+				: change / 2 * ((time -= 2) * time * time + 2) + begin;
 
-    this.children = options.children.length ? options.children : this.containerElem.children;
-    this.delay = (options.delay || 3) * 1000;
-    this.ease = options.ease || defaultEase;
-    this.endVal = options.end || 100;
-    this.onChange = options.onChange || 0;
-    this.onChangeEnd = options.onChangeEnd || 0;
-    this.paused = options.paused;
-    this.startVal = options.init || -100;
-    this.trProp = options.prop || 'left';
-    this.trTime = (options.duration || 0.5) * 1000;
-    this.unit = options.unit || '%';
-    this.visVal = options.show || 0;
+		this.containerElem = options.containerElem || document.querySelector("*[data-simple-slider]");
 
-    this.reset();
-  }
+		this.children = options.children.length ? options.children : this.containerElem.children;
+		this.delay = (options.delay || 3) * 1000;
+		this.ease = options.ease || defaultEase;
+		this.endVal = options.endVal || 100;
+		this.onChange = options.onChange || null;
+		this.onChangeEnd = options.onChangeEnd || null;
+		this.paused = options.paused;
+		this.startVal = options.startVal || -100;
+		this.trProp = options.trProp || "left";
+		this.trTime = (options.trTime || 0.5) * 1000;
+		this.unit = options.unit || "%";
+		this.visVal = options.visVal || 0;
 
-  private animate(insertElem: any, removeElem: any, startTime: number, elapsedTime: number) {
-    const { actualIndex, ease, endVal, imgs, nextIndex, onChangeEnd, startVal, trProp, trTime, unit, visVal } = this;
+		this.reset();
+	}
 
-    const setProp = (elem: HTMLElement, from: number, to: number) => {
-      elem[trProp] = ease(elapsedTime - startTime, from, to - from, trTime) + unit;
-    }
+	private animate(insertElem: any, removeElem: any, startTime: number, elapsedTime: number) {
+		const { actualIndex, ease, endVal, nextIndex, onChangeEnd, startVal, trProp, trTime, unit, visVal } = this;
+		const animate = this.animate;
+		const setProp = (elem: HTMLElement, from: number, to: number) => {
+			elem[trProp] = ease(elapsedTime - startTime, from, to - from, trTime) + unit;
+		}
 
-    if (startTime > 0) {
-      if (elapsedTime - startTime < trTime) {
-        setProp(insertElem, visVal, endVal);
-        setProp(removeElem, startVal, visVal);
-      } else {
-        insertElem[trProp] = endVal + unit;
-        removeElem[trProp] = visVal + unit;
+		if (startTime > 0) {
+			if (elapsedTime - startTime < trTime) {
+				setProp(insertElem, visVal, endVal);
+				setProp(removeElem, startVal, visVal);
+			} else {
+				insertElem[trProp] = endVal + unit;
+				removeElem[trProp] = visVal + unit;
 
-        if (onChangeEnd) {
-          onChangeEnd(actualIndex, nextIndex());
-        }
+				if (onChangeEnd) {
+					onChangeEnd(actualIndex, nextIndex());
+				}
 
-        return;
-      }
-    }
+				return;
+			}
+		}
 
-    requestAnimationFrame((time) => {
-      // Starts time in the first anim iteration
-      const newStartTime = startTime === 0 ? time : startTime;
+		requestAnimationFrame((time) => {
+			// Starts time in the first anim iteration
+			const newStartTime = startTime === 0 ? time : startTime;
 
-      anim(insertElem, removeElem, newStartTime, time);
-    });
-  }
+			animate(insertElem, removeElem, newStartTime, time);
+		});
+	}
 
-  private isAutoPlay(): boolean {
-    return !this.paused && this.imgs.length > 1;
-  }
+	private isAutoPlay(): boolean {
+		return !this.paused && this.imgs.length > 1;
+	}
 
-  private playLoop() {
-    const { change, delay, nextIndex, setAutoPlayLoop } = this;
+	private playLoop() {
+		const { change, delay, nextIndex, setAutoPlayLoop } = this;
 
-    this.intervalStartTime = Date.now();
-    this.remainingTime = delay; // resets time, used by pause/resume logic
+		this.intervalStartTime = Date.now();
+		this.remainingTime = delay; // resets time, used by pause/resume logic
 
-    change(nextIndex());
+		change(nextIndex());
 
-    // loops
-    setAutoPlayLoop();
-  }
+		// loops
+		setAutoPlayLoop();
+	}
 
-  private setAutoPlayLoop() {
-    this.intervalStartTime = Date.now();
+	private setAutoPlayLoop() {
+		this.intervalStartTime = Date.now();
 
-    this.interval = setTimeout(this.playLoop, this.remainingTime);
-  }
+		this.interval = setTimeout(this.playLoop, this.remainingTime);
+	}
 
-  private setupSlides(containerElem: HTMLElement, children: HTMLCollection,
-    unit: string, startVal: number, visVal: number, trProp: string): HTMLCollection {
-    let i = children.length;
-    let imgs = [ ...children ];
-    let style;
+	private setupSlides(containerElem: HTMLElement, children: HTMLCollection,
+		unit: string, startVal: number, visVal: number, trProp: string): HTMLElement[] {
+		let i = children.length;
+		let imgs = Array.prototype.slice.call(children);
+		let style;
 
-    while (--i >= 0) {
-      style = imgs[i].style;
+		while (--i >= 0) {
+			style = imgs[i].style;
 
-      style.left = '';
-      style.position = 'absolute';
-      style.top = '';
-      style.zIndex = 0;
-      style[trProp] = startVal + unit;
-    }
+			style.left = "";
+			style.position = "absolute";
+			style.top = "";
+			style.zIndex = 0;
+			style[trProp] = startVal + unit;
+		}
 
-    style[trProp] = visVal + unit;
-    style.zIndex = 1;
+		style[trProp] = visVal + unit;
+		style.zIndex = 1;
 
-    return imgs;
-  }
+		return imgs;
+	}
 
-  private visibilityChange() {
-    if (document.hidden) {
-      this.pause();
-    } else {
-      this.resume();
-    }
-  }
+	private visibilityChange() {
+		if (document.hidden) {
+			this.pause();
+		} else {
+			this.resume();
+		}
+	}
 }
