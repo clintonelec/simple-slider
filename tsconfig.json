@@ -17,7 +17,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "outDir": "build/dist",
+    "outDir": "dist",
     "rootDir": "./",
     "rootDirs": [ "./", "src" ],
     "sourceMap": true,
