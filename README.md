@@ -5,7 +5,7 @@
 ![File Size: < 1.2kB gzipped](http://img.badgesize.io/clintonelec/simple-slider/master/src/simpleslider.ts?compression=gzip)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/clintonelec/simple-slider/master/LICENSE)
 
-https://clintonelec.github.com/simple-slider
+https://github.com/clintonelec/simple-slider
 
 Extremely lightweight carousel micro library.
 
@@ -140,9 +140,9 @@ slider.pause();
 - `updateConfig(options: SliderOpts, withResume?: boolean)` Updates the configuration and restarts the slideshow.
 
 
-## [Documentation](https://clintonelec.github.io/simple-slider/docs/)
+## [Documentation](https://github.com/clintonelec/simple-slider/tree/gh-pages/docs)
 
-Extensive documentation of the options and methods can be found at the [simple-slider official documentation](https://clintonelec.github.io/simple-slider/docs/).
+Extensive documentation of the options and methods can be found at the [simple-slider official documentation](https://github.com/clintonelec/simple-slider/tree/gh-pages/docs).
 
 
 ## Alternatives
