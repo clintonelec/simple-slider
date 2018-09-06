@@ -5,14 +5,8 @@
 	"homepage": "https://github.com/clintonelec/simple-slider/",
 	"main": "./index.js",
 	"types": "./index.d.ts",
-	"files": [
-		"index.ts",
-		"src/index.ts",
-		"src/interfaces.ts",
-		"src/simpleslider.ts"
-	],
 	"scripts": {
-		"prepare": "dts-generator --name simple-slider-ts --project ./ --out index.d.ts && tsc -p ./ --outDir dist/"
+		"build": "dts-generator --name simple-slider-ts --project ./ --out index.d.ts && tsc -p ./ --outDir dist/"
 	},
 	"devDependencies": {
 		"dts-generator": "^2.1.0",
