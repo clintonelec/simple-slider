@@ -3,13 +3,16 @@
 	"version": "0.1.1",
 	"description": "A Tiny Typed JavaScript Carousel",
 	"homepage": "https://github.com/clintonelec/simple-slider/",
-	"main": "index.ts",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"src/index.ts",
 		"src/interfaces.ts",
 		"src/simpleslider.ts"
 	],
-	"scripts": {},
+	"scripts": {
+		"prepublish": "tsc -p ./ --outDir dist/"
+	},
 	"devDependencies": {
 		"tslint": "^5.11.0",
 		"typescript": "^3.0.3"
