@@ -1,6 +1,6 @@
 {
 	"name": "simple-slider-ts",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "A Tiny Typed JavaScript Carousel",
 	"homepage": "https://github.com/clintonelec/simple-slider/",
 	"main": "./dist/index.js",
