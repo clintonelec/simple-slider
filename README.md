@@ -2,10 +2,10 @@
 
 [![NPM version](https://badge.fury.io/js/simple-slider.svg)](https://npmjs.org/package/simple-slider)
 [![CDNJS version](https://img.shields.io/cdnjs/v/simple-slider.svg)](https://cdnjs.com/libraries/simple-slider)
-![File Size: < 1.2kB gzipped](http://img.badgesize.io/jacobroufa/simple-slider/master/src/simpleslider.ts?compression=gzip)
-[![license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/jacobroufa/simple-slider/master/LICENSE)
+![File Size: < 1.2kB gzipped](http://img.badgesize.io/clintonelec/simple-slider/master/src/simpleslider.ts?compression=gzip)
+[![license](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.githubusercontent.com/clintonelec/simple-slider/master/LICENSE)
 
-https://jacobroufa.github.com/simple-slider
+https://clintonelec.github.com/simple-slider
 
 Extremely lightweight carousel micro library.
 
@@ -70,15 +70,15 @@ getSlider({
 
 Here is the list of available values to customize how your slider is going to work:
 
-- **container**: <[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)> The HTML element that act as a container for the slider. Defaults to `document.querySelector('*[data-simple-slider])`.
-- **children** <[NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)/Array> A list of children to be used as slides, you can use the [querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) to have more flexibility on what children of the `container` element should be used as slides. Defaults to `container.children`.
+- **containerElem**: <[Element](https://developer.mozilla.org/en-US/docs/Web/API/Element)> The HTML element that act as a container for the slider. Defaults to `document.querySelector('*[data-simple-slider])`.
+- **children** <[NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)/Array> A list of children to be used as slides, you can use the [querySelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll) to have more flexibility on what children of the `containerElem` element should be used as slides. Defaults to `containerElem.children`.
 - **paused**: <Boolean> Controls carousel auto-transition/slideshow. If value is `true` no transition will happen. Defaults to `false`.
-- **prop**: <String> Determines the css property to be animated. Defaults to `left`.
-- **duration**: <Number> Value setting the duration of animation transition. Defaults to `0.5`.
+- **trProp**: <String> Determines the css property to be animated. Defaults to `left`.
+- **trTime**: <Number> Value setting the duration of animation transition. Defaults to `0.5`.
 - **delay**: <Number> Value determining the wait between each animation when auto-transition is enabled. Defaults to `3` seconds.
-- **init**: <Number> Initial value of slide elements when starting a transition animation. Defaults to `-100`.
-- **show**: <Number> The value a slide element should have when it is displayed. Defaults to `0`.
-- **end**: <Number> The value a slide will move to during a transition animation. Defaults to `100`.
+- **startVal**: <Number> Initial value of slide elements when starting a transition animation. Defaults to `-100`.
+- **visVal**: <Number> The value a slide element should have when it is displayed. Defaults to `0`.
+- **endVal**: <Number> The value a slide will move to during a transition animation. Defaults to `100`.
 - **unit**: <String> The css unit value to be used. Defaults to `%`.
 - **ease**: <Function> An ease function, you can use any of [these](https://github.com/jimjeffers/Easie/blob/master/easie.js). Defaults to `defaultEase` internal function.
 - **onChange**: <Function> A callback function to be invoked each time a slide changes.
@@ -88,15 +88,15 @@ Here is the list of available values to customize how your slider is going to wo
 
 ```js
 {
-  container: document.querySelector('*[data-simple-slider]'),
+  containerElem: document.querySelector('*[data-simple-slider]'),
   children: container.children,
   paused: false,
-  prop: 'left',
-  duration: 0.5,
+  trProp: 'left',
+  trTime: 0.5,
   delay: 3,
-  init: -100,
-  show: 0,
-  end: 100,
+  startVal: -100,
+  visVal: 0,
+  endVal: 100,
   unit: '%',
   ease: defaultEase function,
   onChange: null,
@@ -111,7 +111,7 @@ Some methods are exposed by the returning value of the function allowing you to 
 
 ```js
 const slider = simpleslider.getSlider({
-	container: document.getElementById('myslider'),
+	containerElem: document.getElementById('myslider'),
 	onChangeEnd: updateCurrentIndex
 });
 let currentIndex;
@@ -126,21 +126,23 @@ slider.pause();
 
 ### Available methods:
 
-- `currentIndex()` Returns the index of the current displaying image.
+- `change(index: number)` Changes image to a given `index` value.
+- `dispose()` Disposes of all internal variable references.
+- `getCurrentIndex()` Returns the index of the current displaying image.
+- `next()` Switches displaying image to the next one.
+- `nextIndex()` Gets the index of the next slide to be shown.
 - `pause()` Pauses the slideshow.
+- `prev()` Switches displaying image to the previous one.
+- `prevIndex()` Gets the index of the previous slide.
+- `reset()` Resets the slideshow.
 - `resume()` Resumes the slideshow.
 - `reverse()` Swaps `init` for `end` and reverses the order of slides.
-- `nextIndex()` Gets the index of the next slide to be shown.
-- `prevIndex()` Gets the index of the previous slide.
-- `next()` Switches displaying image to the next one.
-- `prev()` Switches displaying image to the previous one.
-- `change(index)` Changes image to a given `index` value.
-- `dispose()` Disposes of all internal variable references.
+- `updateConfig(options: SliderOpts, withResume?: boolean)` Updates the configuration and restarts the slideshow.
 
 
-## [Documentation](https://jacobroufa.github.io/simple-slider/docs/)
+## [Documentation](https://clintonelec.github.io/simple-slider/docs/)
 
-Extensive documentation of the options and methods can be found at the [simple-slider official documentation](https://jacobroufa.github.io/simple-slider/docs/).
+Extensive documentation of the options and methods can be found at the [simple-slider official documentation](https://clintonelec.github.io/simple-slider/docs/).
 
 
 ## Alternatives
@@ -164,4 +166,4 @@ I would recommend that you take a look at some of the available alternatives and
 
 ## License
 
-MIT © [Jacob M. Roufa](https://jacobroufa.com)
+MIT © [Clinton Electronics](https://clintonelectronics.com)

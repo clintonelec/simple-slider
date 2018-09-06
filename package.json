@@ -1,52 +1,54 @@
 {
-  "name": "simple-slider-ts",
-  "version": "0.1.0",
-  "description": "A Tiny Typed JavaScript Carousel",
-  "homepage": "https://jacobroufa.github.io/simple-slider/",
-  "main": "index.ts",
-  "files": [
-    "src/index.ts",
-    "src/interfaces.ts",
-    "src/simpleslider.ts"
-  ],
-  "scripts": {},
-  "devDependencies": {
-    "tslint": "^5.11.0",
-    "typescript": "^3.0.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jacobroufa/simple-slider.git"
-  },
-  "keywords": [
-    "simple",
-    "carousel",
-    "slider",
-    "gallery",
-    "slideshow",
-    "lightweight",
-    "minimalistic",
-    "micro",
-    "slick",
-    "lory",
-    "siema",
-    "swipe",
-    "swiper",
-    "flickity",
-    "islider",
-    "owlcarousel",
-    "unslider",
-    "glide",
-    "glidejs",
-    "javascript-carousel",
-    "DOM",
-    "browser",
-    "typescript",
-    "typescript-carousel"
-  ],
-  "author": {
-    "name": "Jacob Roufa",
-    "url": "jacobroufa.com"
-  },
-  "license": "MIT"
+	"name": "simple-slider-ts",
+	"version": "0.1.0",
+	"description": "A Tiny Typed JavaScript Carousel",
+	"homepage": "https://clintonelec.github.io/simple-slider/",
+	"main": "index.ts",
+	"files": [
+		"src/index.ts",
+		"src/interfaces.ts",
+		"src/simpleslider.ts"
+	],
+	"scripts": {},
+	"devDependencies": {
+		"tslint": "^5.11.0",
+		"typescript": "^3.0.3"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/clintonelec/simple-slider.git"
+	},
+	"keywords": [
+		"simple",
+		"carousel",
+		"slider",
+		"gallery",
+		"slideshow",
+		"lightweight",
+		"minimalistic",
+		"micro",
+		"slick",
+		"lory",
+		"siema",
+		"swipe",
+		"swiper",
+		"flickity",
+		"islider",
+		"owlcarousel",
+		"unslider",
+		"glide",
+		"glidejs",
+		"javascript-carousel",
+		"DOM",
+		"browser",
+		"typescript",
+		"typescript-carousel"
+	],
+	"contributors": [
+		{
+			"name": "Jacob Roufa",
+			"url": "jacobroufa.com"
+		}
+	],
+	"license": "MIT"
 }

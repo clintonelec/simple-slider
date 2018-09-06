@@ -148,7 +148,7 @@ export default class SimpleSlider extends SliderClass {
 		this.actualIndex = Math.abs(actualIndex - (imgs.length - 1));
 		this.imgs = imgs.reverse(); }
 
-	public updateConfig(options: SliderOpts) {
+	public updateConfig(options: SliderOpts, withResume?: boolean) {
 		const defaultEase = (time, begin, change, duration) => ((time = time / (duration / 2)) < 1)
 				? change / 2 * time * time * time + begin
 				: change / 2 * ((time -= 2) * time * time + 2) + begin;
@@ -169,6 +169,10 @@ export default class SimpleSlider extends SliderClass {
 		this.visVal = options.visVal || 0;
 
 		this.reset();
+
+		if (withResume && this.imgs && this.imgs.length > 1) {
+			this.resume();
+		}
 	}
 
 	private animate(insertElem: any, removeElem: any, startTime: number, elapsedTime: number) {

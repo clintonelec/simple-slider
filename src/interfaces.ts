@@ -47,5 +47,5 @@ export abstract class SliderClass implements SliderOpts {
 	abstract reset(): void;
 	abstract resume(): void;
 	abstract reverse(): void;
-	abstract updateConfig(options: SliderOpts): void;
+	abstract updateConfig(options: SliderOpts, withResume?: boolean): void;
 }
