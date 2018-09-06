@@ -6,6 +6,8 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"files": [
+		"dist/index.ts",
+		"dist/index.d.ts",
 		"src/index.ts",
 		"src/interfaces.ts",
 		"src/simpleslider.ts"
