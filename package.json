@@ -11,9 +11,10 @@
 		"src/simpleslider.ts"
 	],
 	"scripts": {
-		"prepublish": "tsc -p ./ --outDir dist/"
+		"prepublish": "dts-generator --name simple-slider-ts --project ./ --out index.d.ts && tsc -p ./ --outDir dist/"
 	},
 	"devDependencies": {
+		"dts-generator": "^2.1.0",
 		"tslint": "^5.11.0",
 		"typescript": "^3.0.3"
 	},
