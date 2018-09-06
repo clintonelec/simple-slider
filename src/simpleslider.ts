@@ -225,7 +225,7 @@ export default class SimpleSlider extends SliderClass {
 	private setAutoPlayLoop() {
 		this.intervalStartTime = Date.now();
 
-		this.interval = setTimeout(this.playLoop, this.remainingTime);
+		this.interval = window.setTimeout(this.playLoop, this.remainingTime);
 	}
 
 	private setupSlides(containerElem: HTMLElement, children: HTMLCollection,
