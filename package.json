@@ -13,7 +13,7 @@
 		"src/simpleslider.ts"
 	],
 	"scripts": {
-		"prepublish": "dts-generator --name simple-slider-ts --project ./ --out index.d.ts && tsc -p ./ --outDir dist/"
+		"prepare": "dts-generator --name simple-slider-ts --project ./ --out index.d.ts && tsc -p ./ --outDir dist/"
 	},
 	"devDependencies": {
 		"dts-generator": "^2.1.0",
