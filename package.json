@@ -3,11 +3,10 @@
 	"version": "0.2.7",
 	"description": "A Tiny Typed JavaScript Carousel",
 	"homepage": "https://github.com/clintonelec/simple-slider/",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
+	"main": "./index.js",
+	"types": "./index.d.ts",
 	"files": [
-		"dist/index.ts",
-		"dist/index.d.ts",
+		"index.ts",
 		"src/index.ts",
 		"src/interfaces.ts",
 		"src/simpleslider.ts"
