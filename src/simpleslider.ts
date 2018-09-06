@@ -15,6 +15,25 @@ export default class SimpleSlider extends SliderClass {
 		if (this.imgs && this.imgs.length > 1) {
 			this.resume();
 		}
+
+		this.animate = this.animate.bind(this);
+		this.change = this.change.bind(this);
+		this.dispose = this.dispose.bind(this);
+		this.getCurrentIndex = this.getCurrentIndex.bind(this);
+		this.isAutoPlay = this.isAutoPlay.bind(this);
+		this.next = this.next.bind(this);
+		this.nextIndex = this.nextIndex.bind(this);
+		this.pause = this.pause.bind(this);
+		this.playLoop = this.playLoop.bind(this);
+		this.prev = this.prev.bind(this);
+		this.prevIndex = this.prevIndex.bind(this);
+		this.reset = this.reset.bind(this);
+		this.resume = this.resume.bind(this);
+		this.reverse = this.reverse.bind(this);
+		this.setAutoPlayLoop = this.setAutoPlayLoop.bind(this);
+		this.setupSlides = this.setupSlides.bind(this);
+		this.updateConfig = this.updateConfig.bind(this);
+		this.visibilityChange = this.visibilityChange.bind(this);
 	}
 
 	public change(newIndex: number) {
