@@ -171,20 +171,23 @@ export default class SimpleSlider extends SliderClass {
 				? change / 2 * time * time * time + begin
 				: change / 2 * ((time -= 2) * time * time + 2) + begin;
 
-		this.containerElem = options.containerElem || document.querySelector("*[data-simple-slider]");
+		const { children, containerElem, delay, ease, endVal, onChange, onChangeEnd,
+			paused, startVal, trProp, trTime, unit, visVal } = options;
 
-		this.children = (options.children && options.children.length) ? options.children : this.containerElem.children;
-		this.delay = (options.delay || 3) * 1000;
-		this.ease = options.ease || defaultEase;
-		this.endVal = options.endVal || 100;
-		this.onChange = options.onChange || null;
-		this.onChangeEnd = options.onChangeEnd || null;
-		this.paused = options.paused;
-		this.startVal = options.startVal || -100;
-		this.trProp = options.trProp || "left";
-		this.trTime = (options.trTime || 0.5) * 1000;
-		this.unit = options.unit || "%";
-		this.visVal = options.visVal || 0;
+		this.containerElem = containerElem || document.querySelector("*[data-simple-slider]");
+
+		this.children = (children && children.length) ? children : this.containerElem.children;
+		this.delay = (delay || 3) * 1000;
+		this.ease = ease || defaultEase;
+		this.endVal = endVal || 100;
+		this.onChange = onChange || null;
+		this.onChangeEnd = onChangeEnd || null;
+		this.paused = paused;
+		this.startVal = startVal || -100;
+		this.trProp = trProp || "left";
+		this.trTime = (trTime || 0.5) * 1000;
+		this.unit = (unit !== null || unit !== undefined) ? unit : "%";
+		this.visVal = visVal || 0;
 
 		this.reset();
 
