@@ -9,8 +9,10 @@ export default class SimpleSlider extends SliderClass {
 
 		this.updateConfig(options);
 
+		const boundChange = this.visibilityChange.bind(this);
+
 		// configures visibility api handler https://developer.mozilla.org/en-US/docs/Web/API/Page_Visibility_API
-		document.addEventListener("visibilitychange", this.visibilityChange);
+		document.addEventListener("visibilitychange", boundChange);
 
 		if (this.imgs && this.imgs.length > 1) {
 			this.resume();
@@ -59,7 +61,9 @@ export default class SimpleSlider extends SliderClass {
 	public dispose() {
 		clearTimeout(this.interval);
 
-		document.removeEventListener("visibilitychange", this.visibilityChange);
+		const boundChange = this.visibilityChange.bind(this);
+
+		document.removeEventListener("visibilitychange", boundChange);
 
 		this.actualIndex = null;
 		this.children = null;
@@ -237,7 +241,9 @@ export default class SimpleSlider extends SliderClass {
 	private setAutoPlayLoop() {
 		this.intervalStartTime = Date.now();
 
-		this.interval = window.setTimeout(this.playLoop, this.remainingTime);
+		const boundLoop = this.playLoop.bind(this);
+
+		this.interval = window.setTimeout(boundLoop, this.remainingTime);
 	}
 
 	private setupSlides(containerElem: HTMLElement, children: HTMLCollection,
