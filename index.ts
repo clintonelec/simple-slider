@@ -1,4 +1,4 @@
-/// <reference path="./index.d.ts" />
+/// <reference path="index.d.ts" />
 
 import getSlider from "simple-slider-ts/src/index";
 import { SliderClass, SliderOpts } from "simple-slider-ts/src/interfaces";
