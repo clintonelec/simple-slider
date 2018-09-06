@@ -155,7 +155,7 @@ export default class SimpleSlider extends SliderClass {
 
 		this.containerElem = options.containerElem || document.querySelector("*[data-simple-slider]");
 
-		this.children = options.children.length ? options.children : this.containerElem.children;
+		this.children = (options.children && options.children.length) ? options.children : this.containerElem.children;
 		this.delay = (options.delay || 3) * 1000;
 		this.ease = options.ease || defaultEase;
 		this.endVal = options.endVal || 100;
