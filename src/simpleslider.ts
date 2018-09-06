@@ -37,7 +37,7 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	public change(newIndex: number) {
-		const { actualIndex, imgs, onChange, prevIndex } = this;
+		const { actualIndex, imgs } = this;
 		let count = imgs.length;
 
 		while (--count >= 0) {
@@ -51,17 +51,15 @@ export default class SimpleSlider extends SliderClass {
 
 		this.actualIndex = newIndex;
 
-		if (onChange) {
-			onChange(prevIndex(), actualIndex);
+		if (this.onChange) {
+			this.onChange(this.prevIndex(), actualIndex);
 		}
 	}
 
 	public dispose() {
-		const { interval, visibilityChange } = this;
+		clearTimeout(this.interval);
 
-		clearTimeout(interval);
-
-		document.removeEventListener("visibilitychange", visibilityChange);
+		document.removeEventListener("visibilitychange", this.visibilityChange);
 
 		this.actualIndex = null;
 		this.children = null;
@@ -87,10 +85,8 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	public next() {
-		const { change, nextIndex, resume } = this;
-
-		change(nextIndex());
-		resume();
+		this.change(this.nextIndex());
+		this.resume();
 	}
 
 	public nextIndex(): number {
@@ -103,9 +99,9 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	public pause() {
-		const { delay, intervalStartTime, interval, isAutoPlay } = this;
+		const { delay, intervalStartTime, interval } = this;
 
-		if (isAutoPlay()) {
+		if (this.isAutoPlay()) {
 			this.remainingTime = delay - (Date.now() - intervalStartTime);
 
 			clearTimeout(interval);
@@ -115,10 +111,8 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	public prev() {
-		const { change, prevIndex, resume } = this;
-
-		change(prevIndex());
-		resume();
+		this.change(this.prevIndex());
+		this.resume();
 	}
 
 	public prevIndex(): number {
@@ -147,14 +141,14 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	public resume() {
-		const { interval, isAutoPlay, setAutoPlayLoop } = this;
+		const { interval } = this;
 
-		if (isAutoPlay()) {
+		if (this.isAutoPlay()) {
 			if (interval) {
 				clearTimeout(interval);
 			}
 
-			setAutoPlayLoop();
+			this.setAutoPlayLoop();
 		}
 	}
 
@@ -165,7 +159,8 @@ export default class SimpleSlider extends SliderClass {
 		this.startVal = endVal;
 		this.endVal = newEndVal;
 		this.actualIndex = Math.abs(actualIndex - (imgs.length - 1));
-		this.imgs = imgs.reverse(); }
+		this.imgs = imgs.reverse();
+	}
 
 	public updateConfig(options: SliderOpts, withResume?: boolean) {
 		const defaultEase = (time, begin, change, duration) => ((time = time / (duration / 2)) < 1)
@@ -195,7 +190,7 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	private animate(insertElem: any, removeElem: any, startTime: number, elapsedTime: number) {
-		const { actualIndex, ease, endVal, nextIndex, onChangeEnd, startVal, trProp, trTime, unit, visVal } = this;
+		const { actualIndex, ease, endVal, startVal, trProp, trTime, unit, visVal } = this;
 		const animate = this.animate;
 		const setProp = (elem: HTMLElement, from: number, to: number) => {
 			elem[trProp] = ease(elapsedTime - startTime, from, to - from, trTime) + unit;
@@ -209,8 +204,8 @@ export default class SimpleSlider extends SliderClass {
 				insertElem[trProp] = endVal + unit;
 				removeElem[trProp] = visVal + unit;
 
-				if (onChangeEnd) {
-					onChangeEnd(actualIndex, nextIndex());
+				if (this.onChangeEnd) {
+					this.onChangeEnd(actualIndex, this.nextIndex());
 				}
 
 				return;
@@ -230,15 +225,13 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	private playLoop() {
-		const { change, delay, nextIndex, setAutoPlayLoop } = this;
-
 		this.intervalStartTime = Date.now();
-		this.remainingTime = delay; // resets time, used by pause/resume logic
+		this.remainingTime = this.delay; // resets time, used by pause/resume logic
 
-		change(nextIndex());
+		this.change(this.nextIndex());
 
 		// loops
-		setAutoPlayLoop();
+		this.setAutoPlayLoop();
 	}
 
 	private setAutoPlayLoop() {
