@@ -26,7 +26,6 @@ export default class SimpleSlider extends SliderClass {
 		this.next = this.next.bind(this);
 		this.nextIndex = this.nextIndex.bind(this);
 		this.pause = this.pause.bind(this);
-		this.playLoop = this.playLoop.bind(this);
 		this.prev = this.prev.bind(this);
 		this.prevIndex = this.prevIndex.bind(this);
 		this.reset = this.reset.bind(this);
@@ -40,16 +39,16 @@ export default class SimpleSlider extends SliderClass {
 
 	public change(newIndex: number) {
 		const { actualIndex, imgs } = this;
-		let count = imgs.length;
 
-		while (--count >= 0) {
-			imgs[count].style.zIndex = "1";
-		}
+		imgs.forEach((image, index) => {
+			const zIndex = index === newIndex ? "103"
+				: index === actualIndex ? "102"
+				: "101";
 
-		imgs[newIndex].style.zIndex = "3";
-		imgs[actualIndex].style.zIndex = "2";
+			image.style.zIndex = zIndex;
+		});
 
-		this.animate(imgs[actualIndex].style, imgs[newIndex].style, 0, 0);
+		this.animate(imgs[actualIndex], imgs[newIndex], 0, 0);
 
 		this.actualIndex = newIndex;
 
@@ -128,7 +127,7 @@ export default class SimpleSlider extends SliderClass {
 			: newIndex;
 	}
 
-	public reset() {
+	public reset(prevTrProp: string) {
 		const { children, containerElem, delay, startVal, trProp, unit, visVal } = this;
 
 		if (children.length > 0) {
@@ -139,7 +138,7 @@ export default class SimpleSlider extends SliderClass {
 			style.display = "block";
 
 			this.actualIndex = 0;
-			this.imgs = this.setupSlides(containerElem, children, unit, startVal, visVal, trProp);
+			this.imgs = this.setupSlides(containerElem, children, unit, startVal, visVal, trProp, prevTrProp);
 			this.remainingTime = delay;
 		}
 	}
@@ -173,34 +172,37 @@ export default class SimpleSlider extends SliderClass {
 
 		const { children, containerElem, delay, ease, endVal, onChange, onChangeEnd,
 			paused, startVal, trProp, trTime, unit, visVal } = options;
+		const prevTrProp = this.trProp;
+		const getDef = (val, def) => val === null || val === undefined
+			? def : val;
 
-		this.containerElem = containerElem || document.querySelector("*[data-simple-slider]");
-
+		this.containerElem = getDef(containerElem, document.querySelector("*[data-simple-slider]"));
 		this.children = (children && children.length) ? children : this.containerElem.children;
-		this.delay = (delay || 3) * 1000;
-		this.ease = ease || defaultEase;
-		this.endVal = endVal || 100;
-		this.onChange = onChange || null;
-		this.onChangeEnd = onChangeEnd || null;
-		this.paused = paused;
-		this.startVal = startVal || -100;
-		this.trProp = trProp || "left";
-		this.trTime = (trTime || 0.5) * 1000;
-		this.unit = (unit !== null || unit !== undefined) ? unit : "%";
-		this.visVal = visVal || 0;
 
-		this.reset();
+		this.delay = getDef(delay, 3) * 1000;
+		this.ease = getDef(ease, defaultEase);
+		this.endVal = getDef(endVal, 100);
+		this.onChange = getDef(onChange, null);
+		this.onChangeEnd = getDef(onChangeEnd, null);
+		this.paused = paused;
+		this.startVal = getDef(startVal, -100);
+		this.trProp = getDef(trProp, "left");
+		this.trTime = getDef(trTime, 0.5) * 1000;
+		this.unit = getDef(unit, "%");
+		this.visVal = getDef(visVal, 0);
+
+		this.reset(prevTrProp);
 
 		if (withResume && this.imgs && this.imgs.length > 1) {
 			this.resume();
 		}
 	}
 
-	private animate(insertElem: any, removeElem: any, startTime: number, elapsedTime: number) {
+	private animate(insertElem: HTMLElement, removeElem: HTMLElement, startTime: number, elapsedTime: number) {
 		const { actualIndex, ease, endVal, startVal, trProp, trTime, unit, visVal } = this;
 		const animate = this.animate;
 		const setProp = (elem: HTMLElement, from: number, to: number) => {
-			elem[trProp] = ease(elapsedTime - startTime, from, to - from, trTime) + unit;
+			elem.style[trProp] = ease(elapsedTime - startTime, from, to - from, trTime) + unit;
 		}
 
 		if (startTime > 0) {
@@ -208,8 +210,8 @@ export default class SimpleSlider extends SliderClass {
 				setProp(insertElem, visVal, endVal);
 				setProp(removeElem, startVal, visVal);
 			} else {
-				insertElem[trProp] = endVal + unit;
-				removeElem[trProp] = visVal + unit;
+				insertElem.style[trProp] = endVal + unit;
+				removeElem.style[trProp] = visVal + unit;
 
 				if (this.onChangeEnd) {
 					this.onChangeEnd(actualIndex, this.nextIndex());
@@ -250,25 +252,24 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	private setupSlides(containerElem: HTMLElement, children: HTMLCollection,
-		unit: string, startVal: number, visVal: number, trProp: string): HTMLElement[] {
-		let i = children.length;
-		let imgs = Array.prototype.slice.call(children);
-		let style;
+		unit: string, startVal: number, visVal: number, trProp: string, prevTrProp: string): HTMLElement[] {
+		return Array.prototype.slice.call(children).map((child, index) => {
+			const indexZero = index === 0;
+			const zIndex = indexZero ? "1" : "0";
+			const trVal = (indexZero ? visVal : startVal) + unit;
 
-		while (--i >= 0) {
-			style = imgs[i].style;
+			if (prevTrProp) {
+				child.style[prevTrProp] = "inherit";
+			}
 
-			style.left = "";
-			style.position = "absolute";
-			style.top = "";
-			style.zIndex = 0;
-			style[trProp] = startVal + unit;
-		}
+			child.style.position = "absolute";
+			child.style.top = "inherit";
+			child.style.left = "inherit";
+			child.style.zIndex = zIndex;
+			child.style[trProp] = trVal;
 
-		style[trProp] = visVal + unit;
-		style.zIndex = 1;
-
-		return imgs;
+			return child;
+		});
 	}
 
 	private visibilityChange() {

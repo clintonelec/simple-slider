@@ -41,7 +41,7 @@ declare module 'simple-slider-ts/src/interfaces' {
 	    abstract pause(): void;
 	    abstract prev(): void;
 	    abstract prevIndex(): number;
-	    abstract reset(): void;
+	    abstract reset(prevTrProp: string): void;
 	    abstract resume(): void;
 	    abstract reverse(): void;
 	    abstract updateConfig(options: SliderOpts, withResume?: boolean): void;
@@ -60,7 +60,7 @@ declare module 'simple-slider-ts/src/simpleslider' {
 	    pause(): void;
 	    prev(): void;
 	    prevIndex(): number;
-	    reset(): void;
+	    reset(prevTrProp: string): void;
 	    resume(): void;
 	    reverse(): void;
 	    updateConfig(options: SliderOpts, withResume?: boolean): void;
