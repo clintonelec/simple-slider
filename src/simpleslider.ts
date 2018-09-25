@@ -104,7 +104,7 @@ export default class SimpleSlider extends SliderClass {
 	public pause() {
 		const { delay, intervalStartTime, interval } = this;
 
-		if (this.isAutoPlay()) {
+		if (this.isAutoPlay.call(this)) {
 			this.remainingTime = delay - (Date.now() - intervalStartTime);
 
 			clearTimeout(interval);
@@ -146,7 +146,7 @@ export default class SimpleSlider extends SliderClass {
 	public resume() {
 		const { interval } = this;
 
-		if (this.isAutoPlay()) {
+		if (this.isAutoPlay.call(this)) {
 			if (interval) {
 				clearTimeout(interval);
 			}
@@ -230,7 +230,7 @@ export default class SimpleSlider extends SliderClass {
 	}
 
 	private isAutoPlay(): boolean {
-		return !this.paused && this.imgs.length > 1;
+		return !this.paused && this.imgs && this.imgs.length > 1;
 	}
 
 	private playLoop() {
